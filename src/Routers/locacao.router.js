@@ -1,0 +1,20 @@
+const express = require('express');
+const router = express.Router();
+const locacaoController = require('../Controllers/locacao.controller');
+
+//rota para listar todas as locacoes
+router.get('/', locacaoController.getLocacoes);
+
+//rota para listar uma locacao pelo id
+router.get('/:id', locacaoController.getLocacaoById);
+
+//rota para adicionar uma locacao
+router.post('/', locacaoController.createLocacao);
+
+//rota para atualizar uma locacao
+router.put('/:id', locacaoController.updateLocacao);
+
+//rota para deletar uma locacao
+router.delete('/:id', locacaoController.deleteLocacao);
+
+module.exports = router;
