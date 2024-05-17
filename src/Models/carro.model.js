@@ -1,5 +1,5 @@
 const db = require('../Infraestrutura/database');
-
+//arrumar models de todos
 const getCarros = async () => {
     try {
         const { rows } = await db.query('SELECT * FROM carro');
