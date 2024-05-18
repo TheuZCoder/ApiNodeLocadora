@@ -9,13 +9,13 @@ app.use(cors());
 app.use(express.json());
 app.use(bodyParse.json());
 
-const carroRouter = require('./src/Routers/carroRouter');
-const clienteRouter = require('./src/Routers/clienteRouter');
-const comprovanteRouter = require('./src/Routers/comprovanteRouter');
-const feedbackRouter = require('./src/Routers/feedbackRouter');
-const funcionarioRouter = require('./src/Routers/funcionarioRouter');
-const locacaoRouter = require('./src/Routers/locacaoRouter');
-const manutencaoRouter = require('./src/Routers/manutencaoRouter');
+const carroRouter = require('./Routers/carro.router');
+const clienteRouter = require('./Routers/cliente.router');
+const comprovanteRouter = require('./Routers/comprovante.router');
+const feedbackRouter = require('./Routers/feedback.router');
+const funcionarioRouter = require('./Routers/funcionario.router');
+const locacaoRouter = require('./Routers/locacao.router');
+const manutencaoRouter = require('./Routers/manutencao.router');
 
 app.use('/carro', carroRouter);
 app.use('/cliente', clienteRouter);
