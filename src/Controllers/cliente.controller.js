@@ -24,7 +24,7 @@ exports.getClienteById = async (req, res) => {
 
 exports.createCliente = async (req, res) => {
     try {
-        const cliente = await clienteModel.createCliente(req.body);
+        const cliente = await clienteModel.createCliente(req.body.nome_cliente, req.body.endereco_cliente, req.body.cidade_cliente, req.body.estado_cliente, req.body.celular_cliente, req.body.email_cliente, req.body.senha_cliente);
         res.json(cliente);
     } catch (error) {
         res
