@@ -12,7 +12,7 @@ const getCarros = async () => {
 
 const getCarroById = async (id) => {
     try {
-        const { rows } = await db.query('SELECT * FROM carro WHERE id = $1', [id]);
+        const { rows } = await db.query('SELECT * FROM carro WHERE id_carro = $1', [id]);
         return rows[0];
     } catch (error) {
         console.log("Erro durante pesquisa de carro por id: ", error)
@@ -20,31 +20,60 @@ const getCarroById = async (id) => {
     }
 }
 
-const createCarro = async (carro) => {
-    try {
-        const { rows } = await db.query('INSERT INTO carro (modelo, marca, ano, cor, placa, valor_diaria) VALUES ($1, $2, $3, $4, $5, $6) RETURNING *', [carro.modelo
-            , carro.marca, carro.ano, carro.cor, carro.placa, carro.valor_diaria]);
-        return rows[0];
-    } catch (error) {
-        console.log("Erro durante criação de carro: ", error)
-        res.status(500).json({ message: "Erro durante criação de carro" })
-    }
-}
+const createCarro = async (
+  placa_carro,
+  modelo_carro,
+  marca_carro,
+  ano_carro,
+  cor_carro,
+  disponibilidade_carro,
+  valor_carro
+) => {
+  try {
+    const { rows } = await db.query(
+      "INSERT INTO carro (placa_carro, modelo_carro, marca_carro, ano_carro, cor_carro, disponibilidade_carro,valor_carro) VALUES ($1, $2, $3, $4, $5, $6, $7) RETURNING *",
+      [
+        placa_carro,
+        modelo_carro,
+        marca_carro,
+        ano_carro,
+        cor_carro,
+        disponibilidade_carro,
+        valor_carro,
+      ]
+    );
+    return rows[0];
+  } catch (error) {
+    console.log("Erro durante criação de carro: ", error);
+    res.status(500).json({ message: "Erro durante criação de carro" });
+  }
+};
 
-const updateCarro = async (id, carro) => {
-    try {
-        const { rows } = await db.query('UPDATE carro SET modelo = $1, marca = $2, ano = $3, cor = $4, placa = $5, valor_diaria = $6 WHERE id = $7 RETURNING *', [carro.modelo
-            , carro.marca, carro.ano, carro.cor, carro.placa, carro.valor_diaria, id]);
-        return rows[0];
-    } catch (error) {
-        console.log("Erro durante atualização de carro: ", error)
-        res.status(500).json({ message: "Erro durante atualização de carro" })
-    }
-}
+const updateCarro = async (
+  id_carro,
+  placa_carro,
+  modelo_carro,
+  marca_carro,
+  ano_carro,
+  cor_carro,
+  disponibilidade_carro,
+  valor_carro
+) => {
+  try {
+    const { rows } = await db.query(
+      "UPDATE carro SET placa_carro = $1, modelo_carro = $2, marca_carro = $3, ano_carro = $4, cor_carro = $5, disponibilidade_carro = $6, valor_carro= $7 WHERE id_carro = $8 RETURNING *",
+      [placa_carro, modelo_carro, marca_carro, ano_carro, cor_carro, disponibilidade_carro, valor_carro,id_carro]
+    );
+    return rows[0];
+  } catch (error) {
+    console.log("Erro durante atualização de carro: ", error);
+    res.status(500).json({ message: "Erro durante atualização de carro" });
+  }
+};
 
 const deleteCarro = async (id) => {
     try {
-        const { rows } = await db.query('DELETE FROM carro WHERE id = $1 RETURNING *', [id]);
+        const { rows } = await db.query('DELETE FROM carro WHERE id_carro = $1 RETURNING *', [id]);
         return rows[0];
     } catch (error) {
         console.log("Erro durante exclusão de carro: ", error)

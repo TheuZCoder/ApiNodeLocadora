@@ -22,7 +22,7 @@ exports.getCarroById = async (req, res) => {
 
 exports.createCarro = async (req, res) => {
     try {
-        const carro = await carroModel.createCarro(carro);
+        const carro = await carroModel.createCarro(req.body.placa_carro, req.body.modelo_carro, req.body.marca_carro, req.body.ano_carro, req.body.cor_carro, req.body.disponibilidade_carro, req.body.valor_carro);
         res.json(carro);
     } catch (error) {
         res
@@ -33,7 +33,7 @@ exports.createCarro = async (req, res) => {
 
 exports.updateCarro = async (req, res) => {
     try {
-        const carro = await carroModel.updateCarro(req.params.id, carro);
+        const carro = await carroModel.updateCarro(req.params.id, req.body.placa_carro, req.body.modelo_carro, req.body.marca_carro, req.body.ano_carro, req.body.cor_carro, req.body.disponibilidade_carro, req.body.valor_carro,);
         res.json(carro);
     } catch (error) {
         res
