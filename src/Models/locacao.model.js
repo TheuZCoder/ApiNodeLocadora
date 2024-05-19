@@ -12,7 +12,7 @@ const getLocacoes = async () => {
 
 const getLocacaoById = async (id) => {
     try {
-        const { rows } = await db.query('SELECT * FROM locacao WHERE id = $1', [id]);
+        const { rows } = await db.query('SELECT * FROM locacao WHERE id_locacao = $1', [id]);
         return rows[0];
     } catch (error) {
         console.log("Erro durante pesquisa de locação por id: ", error)
@@ -22,8 +22,17 @@ const getLocacaoById = async (id) => {
 
 const createLocacao = async (locacao) => {
     try {
-        const { rows } = await db.query('INSERT INTO locacao (data_inicio, data_fim, valor_diaria, id_cliente, id_veiculo) VALUES ($1, $2, $3, $4, $5) RETURNING *', [locacao.data_inicio
-            , locacao.data_fim, locacao.valor_diaria, locacao.id_cliente, locacao.id_veiculo]);
+        const { rows } = await db.query(
+          "INSERT INTO locacao (data_locacao, valor_total, data_devolucao, id_cliente, id_funcionario, id_carro) VALUES ($1, $2, $3, $4, $5, $6) RETURNING *",
+          [
+            locacao.data_locacao,
+            locacao.valor_total,
+            locacao.data_devolucao,
+            locacao.id_cliente,
+            locacao.id_funcionario,
+            locacao.id_carro
+          ]
+        );
         return rows[0];
     } catch (error) {
         console.log("Erro durante criação de locação: ", error)
@@ -33,8 +42,18 @@ const createLocacao = async (locacao) => {
 
 const updateLocacao = async (id, locacao) => {
     try {
-        const { rows } = await db.query('UPDATE locacao SET data_inicio = $1, data_fim = $2, valor_diaria = $3, id_cliente = $4, id_veiculo = $5 WHERE id = $6 RETURNING *', [locacao.data_inicio
-            , locacao.data_fim, locacao.valor_diaria, locacao.id_cliente, locacao.id_veiculo, id]);
+        const { rows } = await db.query(
+          "UPDATE locacao SET data_locacao = $1, valor_total = $2, data_devolucao = $3, id_cliente = $4, id_funcionario = $5, id_carro = $6 WHERE id_locacao = $7 RETURNING *",
+          [
+            locacao.data_locacao,
+            locacao.valor_total,
+            locacao.data_devolucao,
+            locacao.id_cliente,
+            locacao.id_funcionario,
+            locacao.id_carro,
+            locacao.id_locacao
+          ]
+        );
         return rows[0];
     } catch (error) {
         console.log("Erro durante atualização de locação: ", error)
@@ -44,7 +63,7 @@ const updateLocacao = async (id, locacao) => {
 
 const deleteLocacao = async (id) => {
     try {
-        const { rows } = await db.query('DELETE FROM locacao WHERE id = $1 RETURNING *', [id]);
+        const { rows } = await db.query('DELETE FROM locacao WHERE id_locacao = $1 RETURNING *', [id]);
         return rows[0];
     } catch (error) {
         console.log("Erro durante exclusão de locação: ", error)

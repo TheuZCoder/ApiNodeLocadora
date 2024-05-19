@@ -12,7 +12,7 @@ const getManutencoes = async () => {
 
 const getManutencaoById = async (id) => {
     try {
-        const { rows } = await db.query('SELECT * FROM manutencao WHERE id = $1', [id]);
+        const { rows } = await db.query('SELECT * FROM manutencao WHERE id_manutencao = $1', [id]);
         return rows[0];
     } catch (error) {
         console.log("Erro durante pesquisa de manutenção por id: ", error)
@@ -22,8 +22,16 @@ const getManutencaoById = async (id) => {
 
 const createManutencao = async (manutencao) => {
     try {
-        const { rows } = await db.query('INSERT INTO manutencao (descricao, data_manutencao, id_veiculo) VALUES ($1, $2, $3) RETURNING *', [manutencao.descricao
-            , manutencao.data_manutencao, manutencao.id_veiculo]);
+        const { rows } = await db.query(
+          "INSERT INTO manutencao (id_carro, data_manutencao, tipo_manutencao, custo, descricao) VALUES ($1, $2, $3, $4, $5) RETURNING *",
+          [
+            manutencao.id_carro,
+            manutencao.data_manutencao,
+            manutencao.tipo_manutencao,
+            manutencao.custo,
+            manutencao.descricao,
+          ]
+        );
         return rows[0];
     } catch (error) {
         console.log("Erro durante criação de manutenção: ", error)
@@ -33,8 +41,17 @@ const createManutencao = async (manutencao) => {
 
 const updateManutencao = async (id, manutencao) => {
     try {
-        const { rows } = await db.query('UPDATE manutencao SET descricao = $1, data_manutencao = $2, id_veiculo = $3 WHERE id = $4 RETURNING *', [manutencao.descricao
-            , manutencao.data_manutencao, manutencao.id_veiculo, id]);
+        const { rows } = await db.query(
+          "UPDATE manutencao SET id_carro = $1, data_manutencao = $2, tipo_manutencao = $3, custo = $4, descricao = $5 WHERE id_manutencao = $6 RETURNING *",
+          [
+            manutencao.id_carro,
+            manutencao.data_manutencao,
+            manutencao.tipo_manutencao,
+            manutencao.custo,
+            manutencao.descricao,
+            manutencao.id_manutencao
+          ]
+        );
         return rows[0];
     } catch (error) {
         console.log("Erro durante atualização de manutenção: ", error)
@@ -44,7 +61,7 @@ const updateManutencao = async (id, manutencao) => {
 
 const deleteManutencao = async (id) => {
     try {
-        const { rows } = await db.query('DELETE FROM manutencao WHERE id = $1 RETURNING *', [id]);
+        const { rows } = await db.query('DELETE FROM manutencao WHERE id_manutencao = $1 RETURNING *', [id]);
         return rows[0];
     } catch (error) {
         console.log("Erro durante exclusão de manutenção: ", error)
