@@ -52,3 +52,14 @@ exports.deleteCarro = async (req, res) => {
           .send({ message: "Erro interno no Servidor Controller" });
     }
 }
+
+exports.updateDisponibilidade = async (req, res) => {
+    try {
+        const carro = await carroModel.updateDisponibilidade(req.params.id, req.body.disponibilidade_carro);
+        res.json(carro);
+    } catch (error) {
+        res
+          .status(500)
+          .send({ message: "Erro interno no Servidor Controller" });
+    }
+}
