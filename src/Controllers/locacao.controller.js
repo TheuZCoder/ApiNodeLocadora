@@ -44,3 +44,4 @@ exports.deleteLocacao = async (req, res) => {
         res.status(500).send({ message: 'Erro interno no Servidor Controller' });
     }
 }
+
