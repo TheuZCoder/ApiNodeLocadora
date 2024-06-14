@@ -60,4 +60,14 @@ exports.calcularReceitaTotal = async (req, res) => {
   }
 };
 
+exports.getCarrosNaoAlugados = async (req, res) => {
+  try {
+    const carrosNaoAlugados = await locacaoModel.getCarrosNuncaAlugados();
+    res.json(carrosNaoAlugados);
+  } catch (error) {
+    console.log("Erro interno no Servidor Controller: ", error);
+    res.status(500).send({ message: "Erro interno no Servidor Controller" });
+  }
+};
+
 

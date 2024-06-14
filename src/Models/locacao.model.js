@@ -113,6 +113,25 @@ const calcularReceitaTotal = async (dataInicio, dataFim) => {
   }
 };
 
+const getCarrosNuncaAlugados = async () => {
+  try {
+    const query = `
+      SELECT *
+      FROM carro c
+      WHERE NOT EXISTS (
+        SELECT 1
+        FROM locacao a
+        WHERE c.id_carro = a.id_carro
+      )
+    `;
+    const { rows } = await db.query(query);
+    return rows;
+  } catch (error) {
+    console.log("Erro durante pesquisa de carros nunca alugados: ", error);
+    throw error; // Lança o erro para ser tratado no controller
+  }
+};
+
 module.exports = {
   getLocacoes,
   getLocacaoById,
@@ -120,5 +139,6 @@ module.exports = {
   updateLocacao,
   deleteLocacao,
   updateCarroDisponibilidade,
-  calcularReceitaTotal
+  calcularReceitaTotal,
+  getCarrosNuncaAlugados
 };
