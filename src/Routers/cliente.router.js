@@ -5,6 +5,9 @@ const clienteController = require('../Controllers/cliente.controller');
 //rota para listar todos os clientes
 router.get('/', clienteController.getClientes);
 
+// Rota para listar clientes com carros alugados
+router.get('/aluguel', clienteController.getClientesComCarrosAlugados);
+
 //rota para listar um cliente pelo id
 router.get('/:id', clienteController.getClienteById);
 
@@ -16,5 +19,6 @@ router.put('/:id', clienteController.updateCliente);
 
 //rota para deletar um cliente
 router.delete('/:id', clienteController.deleteCliente);
+
 
 module.exports = router;

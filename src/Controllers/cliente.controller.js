@@ -55,3 +55,12 @@ exports.deleteCliente = async (req, res) => {
     }
 }
 
+exports.getClientesComCarrosAlugados = async (req, res) => {
+  try {
+    const clientesComCarros = await clienteModel.getClientesComCarrosAlugados();
+    res.json(clientesComCarros);
+  } catch (error) {
+    res.status(500).send({ message: "Erro interno no Servidor Controller" });
+  }
+};
+

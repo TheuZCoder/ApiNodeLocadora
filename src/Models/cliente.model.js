@@ -81,10 +81,43 @@ const deleteCliente = async (id) => {
     }
 }
 
+const getClientesComCarrosAlugados = async () => {
+  try {
+    const { rows } = await db.query(`
+      SELECT c.id_cliente, c.nome_cliente, ca.id_carro, ca.modelo_carro, ca.ano_carro 
+      FROM cliente c 
+      JOIN locacao a ON c.id_cliente = a.id_cliente 
+      JOIN carro ca ON a.id_carro = ca.id_carro
+    `);
+    return rows.map((row) => ({
+      cliente: {
+        id_cliente: row.id_cliente,
+        nome_cliente: row.nome_cliente,
+      },
+      carro: {
+        id_carro: row.id_carro,
+        modelo_carro: row.modelo_carro,
+        ano_carro: row.ano_carro,
+      },
+    }));
+  } catch (error) {
+    console.log(
+      "Erro durante pesquisa de clientes com carros alugados: ",
+      error
+    );
+    res
+      .status(500)
+      .json({
+        message: "Erro durante pesquisa de clientes com carros alugados",
+      });
+  }
+};
+
 module.exports = {
     getClientes,
     getClienteById,
     createCliente,
     updateCliente,
-    deleteCliente
+    deleteCliente,
+    getClientesComCarrosAlugados
 }
