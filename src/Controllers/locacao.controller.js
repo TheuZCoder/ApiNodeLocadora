@@ -45,3 +45,19 @@ exports.deleteLocacao = async (req, res) => {
     }
 }
 
+exports.calcularReceitaTotal = async (req, res) => {
+  const { dataInicio, dataFim } = req.query;
+
+  try {
+    const receitaTotal = await locacaoModel.calcularReceitaTotal(
+      dataInicio,
+      dataFim
+    );
+    res.json({ receita_total: receitaTotal });
+  } catch (error) {
+    console.log("Erro interno no Servidor Controller: ", error);
+    res.status(500).send({ message: "Erro interno no Servidor Controller" });
+  }
+};
+
+

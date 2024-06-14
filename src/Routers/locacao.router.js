@@ -5,6 +5,7 @@ const locacaoController = require('../Controllers/locacao.controller');
 //rota para listar todas as locacoes
 router.get('/', locacaoController.getLocacoes);
 
+router.get("/receita-total", locacaoController.calcularReceitaTotal);
 //rota para listar uma locacao pelo id
 router.get('/:id', locacaoController.getLocacaoById);
 
@@ -16,5 +17,6 @@ router.put('/:id', locacaoController.updateLocacao);
 
 //rota para deletar uma locacao
 router.delete('/:id', locacaoController.deleteLocacao);
+
 
 module.exports = router;

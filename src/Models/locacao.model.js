@@ -98,6 +98,21 @@ const updateCarroDisponibilidade = async (id_carro, disponibilidade) => {
   }
 };
 
+const calcularReceitaTotal = async (dataInicio, dataFim) => {
+  try {
+    const query = `
+      SELECT SUM(valor_total) AS receita_total
+      FROM locacao
+      WHERE data_locacao BETWEEN $1 AND $2
+    `;
+    const { rows } = await db.query(query, [dataInicio, dataFim]);
+    return rows[0].receita_total || 0; // Retorna 0 se não houver resultados
+  } catch (error) {
+    console.log("Erro durante cálculo da receita total: ", error);
+    throw error; // Lança o erro para ser tratado no controller
+  }
+};
+
 module.exports = {
   getLocacoes,
   getLocacaoById,
@@ -105,4 +120,5 @@ module.exports = {
   updateLocacao,
   deleteLocacao,
   updateCarroDisponibilidade,
+  calcularReceitaTotal
 };
