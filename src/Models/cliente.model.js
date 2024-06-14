@@ -113,11 +113,30 @@ const getClientesComCarrosAlugados = async () => {
   }
 };
 
+const getClienteMaisAlugou = async () => {
+  try {
+    const query = `
+      SELECT c.*
+      FROM cliente c
+      JOIN locacao a ON c.id_cliente = a.id_cliente
+      GROUP BY c.id_cliente
+      ORDER BY COUNT(a.id_locacao) DESC
+      LIMIT 1
+    `;
+    const { rows } = await db.query(query);
+    return rows[0];
+  } catch (error) {
+    console.log("Erro durante pesquisa do cliente que mais alugou: ", error);
+    throw error; // Lança o erro para ser tratado no controller
+  }
+};
+
 module.exports = {
     getClientes,
     getClienteById,
     createCliente,
     updateCliente,
     deleteCliente,
-    getClientesComCarrosAlugados
+    getClientesComCarrosAlugados,
+    getClienteMaisAlugou
 }

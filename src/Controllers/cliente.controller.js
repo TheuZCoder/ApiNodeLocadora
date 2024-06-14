@@ -64,3 +64,12 @@ exports.getClientesComCarrosAlugados = async (req, res) => {
   }
 };
 
+exports.getClienteMaisAlugou = async (req, res) => {
+  try {
+    const clienteMaisAlugou = await clienteModel.getClienteMaisAlugou();
+    res.json(clienteMaisAlugou);
+  } catch (error) {
+    res.status(500).send({ message: "Erro interno no Servidor Controller" });
+  }
+};
+
