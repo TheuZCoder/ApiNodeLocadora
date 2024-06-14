@@ -5,6 +5,8 @@ const clienteController = require('../Controllers/cliente.controller');
 //rota para listar todos os clientes
 router.get('/', clienteController.getClientes);
 
+router.get('/clientes-mais-de-um-aluguel', clienteController.getClientesMaisDeUmAluguel);
+
 // Rota para buscar o cliente que mais alugou veículos
 router.get('/cliente-mais-alugou', clienteController.getClienteMaisAlugou);
 

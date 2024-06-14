@@ -131,6 +131,26 @@ const getClienteMaisAlugou = async () => {
   }
 };
 
+const getClientesMaisDeUmAluguel = async () => {
+  try {
+    const query = `
+      SELECT c.*, COUNT(a.id_locacao) AS total_alugueis
+      FROM cliente c
+      JOIN locacao a ON c.id_cliente = a.id_cliente
+      GROUP BY c.id_cliente
+      HAVING COUNT(a.id_locacao) > 1
+    `;
+    const { rows } = await db.query(query);
+    return rows;
+  } catch (error) {
+    console.log(
+      "Erro durante pesquisa dos clientes com mais de um aluguel: ",
+      error
+    );
+    throw error;
+  }
+};
+
 module.exports = {
     getClientes,
     getClienteById,
@@ -138,5 +158,6 @@ module.exports = {
     updateCliente,
     deleteCliente,
     getClientesComCarrosAlugados,
-    getClienteMaisAlugou
+    getClienteMaisAlugou,
+    getClientesMaisDeUmAluguel
 }

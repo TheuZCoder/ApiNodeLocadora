@@ -73,3 +73,14 @@ exports.getClienteMaisAlugou = async (req, res) => {
   }
 };
 
+exports.getClientesMaisDeUmAluguel = async (req, res) => {
+  try {
+    const clientesMaisDeUmAluguel =
+      await clienteModel.getClientesMaisDeUmAluguel();
+    res.json(clientesMaisDeUmAluguel);
+  } catch (error) {
+    console.log("Erro interno no Servidor Controller: ", error);
+    res.status(500).send({ message: "Erro interno no Servidor Controller" });
+  }
+};
+
